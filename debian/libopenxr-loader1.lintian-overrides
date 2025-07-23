@@ -1,0 +1,2 @@
+# False-positive: using a standard, simple dh build of a CMake project, the flags are getting passed through.
+libopenxr-loader1: hardening-no-fortify-functions */libopenxr_loader.so.*

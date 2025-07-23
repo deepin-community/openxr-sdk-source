@@ -1,0 +1,23 @@
+---
+check:
+  suffixes:
+  - xml
+  - cmake
+  - glsl
+  - adoc
+  - h
+  - txt
+  - svg
+  - def
+  - map
+  - rc
+  - json
+ignore:
+  pattern:
+  - .azure-pipelines
+  - /debian/
+  - /.reuse/
+  - /LICENSES
+  - openxr-codespell.exclude
+  - LICENSE
+  - .*.license

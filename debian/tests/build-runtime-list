@@ -1,0 +1,23 @@
+#!/bin/sh
+# Copyright 2019 Rylie Pavlik
+# SPDX-License-Identifier: Apache-2.0
+
+set -e
+# set -x
+
+MYDIR=$(mktemp -d)
+trap "rm -rf $MYDIR" EXIT
+
+SRC=$(pwd)
+
+cd $MYDIR
+c++ \
+    $(pkg-config --cflags openxr) \
+    -I${SRC}/src \
+    -I${SRC}/src/common \
+    ${SRC}/src/tests/list/list.cpp \
+    $(pkg-config --cflags --libs openxr) \
+    -o list
+
+# This will exit with 1 if it can't start a runtime
+# ./list || true

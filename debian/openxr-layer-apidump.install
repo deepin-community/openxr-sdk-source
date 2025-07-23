@@ -1,0 +1,2 @@
+usr/lib/*/openxr/1/api_layers/libXrApiLayer_api_dump.so
+usr/share/openxr/1/api_layers/*/XrApiLayer_api_dump.*.json

@@ -1,0 +1,11 @@
+Tests: build-runtime-list
+Restrictions: superficial
+Depends: @builddeps@, @, build-essential, pkg-config
+
+Tests: build-hello-xr-opengl-xlib
+Restrictions: superficial
+Depends: @builddeps@, @, build-essential, pkg-config, libgl1-mesa-dev, libxrandr-dev, libxxf86vm-dev, mesa-common-dev
+
+Tests: build-hello-xr-vulkan-xlib
+Restrictions: superficial
+Depends: @builddeps@, @, build-essential, pkg-config, libvulkan-dev
