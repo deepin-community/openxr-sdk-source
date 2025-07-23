@@ -1,0 +1,111 @@
+---
+.proclamation.json:
+  copyright: |-
+    2020, Collabora, Ltd. and the Proclamation contributors
+    2020, 2021, The Khronos Group Inc.
+  license: CC0-1.0
+BUILDING.md:
+  license: CC-BY-4.0
+  skip: false
+CHANGELOG.SDK.md:
+  license: CC-BY-4.0
+  skip: false
+CODE_OF_CONDUCT.md:
+  license: CC-BY-4.0
+  skip: false
+README.md:
+  license: CC-BY-4.0
+  skip: false
+changes/:
+  copyright: 2019-2025, The Khronos Group Inc.
+  license: CC-BY-4.0
+external/include/CMakeLists.txt:
+  license: Apache-2.0
+github/sdk/README.md:
+  license: CC-BY-4.0
+include/openxr/openxr_platform_defines.h:
+  license: Apache-2.0 or Expat
+  skip: false
+maintainer-scripts/:
+  license: Apache-2.0
+specification/loader/.*.adoc:
+  license: CC-BY-4.0
+  skip: false
+specification/loader/images/:
+  copyright: 2017-2025, The Khronos Group Inc.
+  license: CC-BY-4.0
+specification/registry/xr.xml:
+  copyright: 2017-2025, The Khronos Group Inc.
+  license: Apache-2.0 or Expat
+  skip: false
+specification/requirements.txt:
+  license: Apache-2.0
+specification/scripts/:
+  license: Apache-2.0
+specification/scripts/template_openxr_reflection.h:
+  license: Apache-2.0 or Expat
+  skip: false
+specification/README.md:
+  license: CC-BY-4.0
+  skip: false
+specification/scripts/reflow_count.py:
+  skip: true
+src/:
+  license: Apache-2.0
+src/common_config.h.in:
+  license: Apache-2.0 or Expat
+src/api_layers/core_validation_message.svg:
+  copyright: |-
+    2017, LunarG, Inc.
+    2021-2025, The Khronos Group Inc.
+  license: CC-BY-4.0
+src/cmake/cmake_uninstall.cmake.in:
+  override-license: BSD-3-Clause
+  skip: false
+src/cmake/FindEGL.cmake:
+  license: BSD-3-Clause
+src/cmake/StdFilesystemFlags.cmake:
+  license: BSL-1.0
+  skip: false
+src/cmake/presentation.cmake:
+  copyright: 2017-2025, The Khronos Group Inc.
+  license: Apache-2.0
+  skip: false
+src/common/gfxwrapper.*:
+  copyright: |-
+    2016, The Brenwill Workshop Ltd.
+    2016, Oculus VR, LLC.
+  license: Apache-2.0
+  skip: false
+src/common/filesystem_utils.cpp:
+  license: Apache-2.0 or Expat
+src/common/filesystem_utils.hpp:
+  license: Apache-2.0 or Expat
+src/common/loader_interfaces.h:
+  license: Apache-2.0 or Expat
+src/common/platform_utils.hpp:
+  license: Apache-2.0 or Expat
+src/common/xr_dependencies.h:
+  license: Apache-2.0 or Expat
+src/tests/hello_xr/:
+  copyright: 2017-2025, The Khronos Group Inc.
+  license: Apache-2.0
+  skip: false
+src/tests/hello_xr/hello_xr.1:
+  license: Apache-2.0
+  skip: false
+src/tests/list/openxr_runtime_list.1:
+  license: Apache-2.0
+  skip: false
+src/loader/:
+  license: Apache-2.0 or Expat
+  skip: false
+src/loader/openxr.pc.in:
+  copyright: 2017-2025, The Khronos Group Inc.
+  license: Apache-2.0 or Expat
+  skip: false
+src/loader/openxr-loader.map:
+  copyright: 2019-2025, The Khronos Group Inc.
+  license: Apache-2.0 or Expat
+  skip: false
+

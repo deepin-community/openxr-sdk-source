@@ -1,0 +1,11 @@
+# Not sure why this gets mixed up by CME: copyright dates for manpage
+! Files:~"\.1" Copyright=~s/2017-2021/2020/
+
+# This gets scanned as a single line, not ideal.
+! Copyright Files:"src/cmake/FindJsonCpp.cmake" Copyright="2016, Sensics, Inc.\n 2011, Philippe Crassous"
+
+# Fix the root wildcard: It's definitely not "pick apache 2 or cc-by" for any file.
+! Copyright Files:"*" License short_name=~"s/Apache-2.0 or CC-BY-4.0/CC-BY-4.0/"
+
+# Fix the root wildcard: why two entries from Khronos?
+! Copyright Files:"*" Copyright=~"s/2014-2025, The Khronos Group Inc.//"

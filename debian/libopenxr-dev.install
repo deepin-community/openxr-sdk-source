@@ -1,0 +1,4 @@
+usr/include/*
+usr/lib/*/libopenxr_loader.so
+usr/lib/*/pkgconfig/*
+usr/lib/*/cmake/openxr/*

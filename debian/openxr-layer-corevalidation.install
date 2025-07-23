@@ -1,0 +1,2 @@
+usr/lib/*/openxr/1/api_layers/libXrApiLayer_core_validation.so
+usr/share/openxr/1/api_layers/*/XrApiLayer_core_validation.*.json

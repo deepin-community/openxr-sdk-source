@@ -1,0 +1,28 @@
+From: Rylie Pavlik <rylie.pavlik@collabora.com>
+Date: Wed, 26 Feb 2020 15:29:44 -0600
+Subject: Mangle API layer manifest filename with a configure-supplied string.
+
+Since API layer manifests that can't be loaded get ignored,
+this allows us to have multiple architectures in /usr/share
+because they have unique filenames, and thus we avoid
+deeper changes to the manifest search mechanism.
+
+Forwarded: not-needed
+Updated: 2024-12-06
+---
+ src/api_layers/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/api_layers/CMakeLists.txt b/src/api_layers/CMakeLists.txt
+index 04f23ad..308f9ba 100644
+--- a/src/api_layers/CMakeLists.txt
++++ b/src/api_layers/CMakeLists.txt
+@@ -328,7 +328,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+             FILES "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_installed.json"
+             DESTINATION
+                 "${CMAKE_INSTALL_DATAROOTDIR}/openxr/${MAJOR}/api_layers/explicit.d"
+-            RENAME ${TARGET_NAME}.json
++            RENAME ${TARGET_NAME}${MANIFEST_SUFFIX}.json
+             COMPONENT Layers
+         )
+         install(

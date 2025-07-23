@@ -1,0 +1,74 @@
+From: Rylie Pavlik <rylie.pavlik@collabora.com>
+Date: Fri, 13 Dec 2019 16:01:07 -0600
+Subject: Make the API layer manifest have an absolute install path
+
+Signed-off-by: Rylie Pavlik <rylie.pavlik@collabora.com>
+Updated: 2024-12-06
+---
+ src/api_layers/CMakeLists.txt | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/src/api_layers/CMakeLists.txt b/src/api_layers/CMakeLists.txt
+index 8b098a7..04f23ad 100644
+--- a/src/api_layers/CMakeLists.txt
++++ b/src/api_layers/CMakeLists.txt
+@@ -31,6 +31,9 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+     )
+ endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
+ 
++set(LAYER_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/openxr/${MAJOR}/api_layers)
++set(LAYER_INSTALL_DIR_ABS ${CMAKE_INSTALL_PREFIX}/${LAYER_INSTALL_DIR})
++
+ # Copy the api_layer_platform_defines.h file and place it in the binary (build) directory.
+ configure_file(
+     api_layer_platform_defines.h ${CMAKE_CURRENT_BINARY_DIR} COPYONLY
+@@ -285,6 +288,15 @@ else()
+         XrApiLayer_api_dump
+         PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/XrApiLayer_api_dump.map"
+     )
++    gen_xr_layer_json(
++        ${CMAKE_CURRENT_BINARY_DIR}/XrApiLayer_api_dump_installed.json
++        LUNARG_api_dump
++        ${LAYER_INSTALL_DIR_ABS}/$<TARGET_FILE_NAME:XrApiLayer_api_dump>
++        1
++        "API Layer to record api calls as they occur"
++        ""
++    )
++    target_sources(XrApiLayer_api_dump PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/XrApiLayer_api_dump_installed.json)
+ 
+     # XrApiLayer_core_validation
+     set_target_properties(
+@@ -297,6 +309,15 @@ else()
+         XrApiLayer_core_validation
+         PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/XrApiLayer_core_validation.map"
+     )
++    gen_xr_layer_json(
++        ${CMAKE_CURRENT_BINARY_DIR}/XrApiLayer_core_validation_installed.json
++        LUNARG_core_validation
++        ${LAYER_INSTALL_DIR_ABS}/$<TARGET_FILE_NAME:XrApiLayer_core_validation>
++        1
++        "API Layer to perform validation of api calls and parameters as they occur"
++        ""
++    )
++    target_sources(XrApiLayer_core_validation PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/XrApiLayer_core_validation_installed.json)
+ endif()
+ 
+ # Install explicit layers
+@@ -304,14 +325,15 @@ set(TARGET_NAMES XrApiLayer_api_dump XrApiLayer_core_validation)
+ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+     foreach(TARGET_NAME ${TARGET_NAMES})
+         install(
+-            FILES "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.json"
++            FILES "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_installed.json"
+             DESTINATION
+                 "${CMAKE_INSTALL_DATAROOTDIR}/openxr/${MAJOR}/api_layers/explicit.d"
++            RENAME ${TARGET_NAME}.json
+             COMPONENT Layers
+         )
+         install(
+             TARGETS ${TARGET_NAME}
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            DESTINATION ${LAYER_INSTALL_DIR}
+             COMPONENT Layers
+         )
+     endforeach()

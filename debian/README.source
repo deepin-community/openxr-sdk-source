@@ -1,0 +1,113 @@
+# The OpenXR-SDK-Source Debian Package: Source instructions
+
+This package is maintained on <https://salsa.debian.org>, using
+`git-buildpackage` (`gbp`), including the use of `gbp pq` for patches (if any),
+`pristine-tar` (via `gbp`) for original tarballs, and `gbp dch` for changelog
+generation.
+
+(This file can be interpreted as Markdown, if you prefer your text with
+formatting.)
+
+To update to a new version from upstream:
+
+1. Clone with `gbp clone git@salsa.debian.org:openxr-team/openxr-sdk-source.git`
+2. Create the patch queue, if any, by running `gbp pq import` then
+   `gbp pq switch` (since `gbp pq import` will change your branch).
+3. Look at the upstream diff, and see if we may need to adjust the repack
+   exclusions in `debian/copyright`: if so, do it now.
+4. Download the upstream tar.gz file and repack it: use `uscan`
+5. Import the new orig source:
+   `gbp import-orig ../openxr-sdk-source_VERSION~dfsg1.orig.tar.xz`
+6. Refresh patches, if any:
+   - `gbp pq switch` to change to the patch queue branch
+   - `git rebase debian/sid` to rebase: edit+`git rebase --continue` to fix
+     patches, or `git rebase --skip` those that are incorporated upstream.
+   - `gbp pq export` when rebase is complete to update the patch directory.
+   - Commit changes in debian/patches with appropriate commit message.
+7. Use `cme edit dpkg` to update any metadata in the patches or the rest of the
+   package, as well as check for warnings.
+8. Use `cme update dpkg-copyright` together with manual edits of
+   `debian/copyright`, `debian/copyright-scan-patterns.yml`,
+   `debian/fill.copyright.blanks.yml`, and if required
+   `debian/fix.scanned.copyright`, repeating until a stable and accurate point
+   is arrived-at, to update the copyright file according to upstream changes.
+   `debmake -k` is a useful, independent, but similarly not infallible, check of
+   copyright entries.
+9. Update the changelog: `gbp dch` followed by manual editing
+   - "New upstream release" should be the first bullet point.
+   - Ensure that the version is right: if not, there was a mistake earlier, find
+     a maintainer, DM, or DD to help.
+   - Call out each individual patch added/removed by name, unless all were
+     removed due to upstreaming.
+   - Commit changelog update.
+10. Build locally (in a pbuilder, with sbuild, or just directly on your machine
+    with `debuild -uc -us`) as a smoketest.
+11. If the local build worked, push to salsa with `gbp push` (to push the
+    upstream and pristine-tar branches too) and `git push origin debian/sid`,
+    and make sure that the CI passes.
+12. Perform any other maintenance operations.
+13. When ready to submit, run `gbp dch --release` to change from `UNRELEASED` to
+    `unstable` and update the timestamp: commit the changes after reviewing them.
+14. If you can push to the archive, do that, signing as yourself. Otherwise,
+    poke your packaging sponsor who will push a (source) package they build and
+    sign locally.
+15. Use `gbp tag --sign-tags --keyid=YOURKEYID` to tag after release, and push
+    the tag to Salsa too.
+
+Ports to other distributions/versions are also maintained in the same
+repository, following DEP14 guidance:
+<https://dep-team.pages.debian.net/deps/dep14/>. See also the official guidance
+for backports: <https://wiki.debian.org/BuildingFormalBackports> To update
+backports/ports to other distributions, after releasing to unstable:
+
+1. Check out the other distro's branch, if it exists. If it does not:
+   - Check out a new branch from `debian/sid` with the correct name.
+   - Modify `debian/gbp.conf` to specify the correct branch
+   - Modify the `Vcs-Git:` field in `debian/control` to specify the correct
+     branch with a `-b <branch>` suffix.
+   - TODO: Figure out how to properly modify or constrain salsa-ci.
+   - Commit these changes.
+2. Merge from `debian/sid` if you didn't just create this branch. (Make sure
+   `dpkg-mergechangelogs` from package `dpkg-dev` is working to get the
+   `debian/changelog` merged correctly:
+   <https://manpages.debian.org/buster/dpkg-dev/dpkg-mergechangelogs.1.en.html>
+   You can run `debian/extra/register-dpkg-mergechangelogs.sh` to do this setup
+   for you automatically: ideally, you'd pass `--global` and have it put in your
+   user config file instead of the repo config file.)
+3. Create a porting changelog entry with the correct distribution and version
+   suffix, and with a message in the entry like "Rebuild for buster-backports."
+   - For debian stable backports, `gbp dch --bpo` will get you started (appends
+     `~bpo10` for a backport to Debian 10 "Buster").
+   - For Ubuntu versions, e.g. append `~ubuntu2004` to the version number for a
+     port to Ubuntu 20.04 "Focal", etc.
+   - It appears that gbp handles DEP14 branch names OK, so you can leave the
+     distribution as `UNRELEASED` until you're done.
+4. Review to see if any packaging changes are needed for this distribution. Be
+   sure to commit changes and use `gbp dch` to document them in the changelog as
+   you add them. Known "gotchas" to consider include:
+   - Be sure to uncomment the `export DEB_LDFLAGS_MAINT_APPEND` line in
+     debian/rules for distributions older than bullseye where this is not
+     automatically added. See
+     <https://lintian.debian.org/tags/debian-rules-uses-as-needed-linker-flag.html>
+5. Try building locally, just as above, on an appropriate
+   system/chroot/container.
+6. Push to salsa.
+7. When ready to release, use `gbp dch --release` to update the changelog
+   timestamp and distribution, commit the changes, and push them. Once you've
+   built a package to upload, push a signed tag as well, just as above.
+   - Note that when building a backport package, you should use
+     `debuild -uc -us -v<LastVersionInTheTargetDistro>` (plus `-S` for a
+     source-only package, or whatever other flags you need) to make the changes
+     file comprehensive enough: <https://backports.debian.org/Contribute/>
+
+Ubuntu updates can be pushed to the Monado PPA:
+<https://launchpad.net/~monado-xr/+archive/ubuntu/monado>. Note that packages
+pushed there should get an extra `~ppaYYYYMMDD` (where YYYYMMDD is the package
+date) at the end of the version number, to avoid conflicting with native
+packages once they get them. (This doesn't necessarily need to be committed to
+git, I think.) `debuild -uc -us -S` will do the build. You may need to add `-sa`
+if the upload gets rejected. Sign with debsign - note you must be in the team on
+launchpad and have your GPG key uploaded there - then upload with
+`dput ppa:monado-xr/monado <source.changes>`
+
+-- Rylie Pavlik <rylie@ryliepavlik.com>  Tue, 17 Aug 2021 12:01:49 -0500

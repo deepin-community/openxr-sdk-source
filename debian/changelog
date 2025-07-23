@@ -1,5 +1,195 @@
-template-repository (1.0-1) unstable; urgency=medium
+openxr-sdk-source (1.1.47~ds-2) unstable; urgency=medium
 
-  * Initial release
+  * d/control: Build-Depends on pyparsing.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Thu, 24 Apr 2025 17:56:03 -0500
+
+openxr-sdk-source (1.1.47~ds-1) unstable; urgency=medium
+
+  * New upstream version 1.1.47~ds. Highlights include:
+    - OpenXR 1.1 core spec revision. (Header/loader usable for 1.0 and 1.1.)
+    - Many new extensions in the headers.
+    - loongarch64 architecture support added, ARMv6 support fixed.
+    - New `XR_API_VERSION_1_0` and `XR_API_VERSION_1_1` defines to allow
+      applications to easily specify OpenXR "major" and "minor" version while
+      passing through the "patch" version.
+    - Substantial fixes to API layers, especially validation layer.
+  * Rediff patches
+  * d/libopenxr-loader1.symbols: Update for new 1.1 core symbol
+  * d/copyright: update
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Wed, 23 Apr 2025 17:44:50 -0500
+
+openxr-sdk-source (1.0.34~ds-1) unstable; urgency=medium
+
+  [ Rylie Pavlik ]
+  * New upstream version 1.0.34~ds. Highlights include:
+    - Many new extensions in the headers.
+    - Support architecture-specific active runtime manifest filenames.
+    - Fix a segfault on improper loader usage.
+    - Improve hello_xr behavior on devices that offer non-opaque blend modes.
+    - Name Vulkan objects in hello_xr for ease of debugging.
+    - Improvements to validation layer and API dump layer.
+    - New openxr_runtime_list_json tool for updating OpenXR-Inventory
+    - New `openxr_reflection_structs.h` and
+      `openxr_reflection_parent_structs.h` reflection headers.
+    - New ratified header for APIs used between runtimes, layers, and
+      the loader.
+    - Fix shared library leak in the loader.
+    - Fix for API layer loading logic.
+    - Limit symbols exported by the API layers.
+  * Update to new upstream signing key used for 1.0.33+.
+  * Rediff patches.
+    Drop 0004-Fix-GCC-11-builds-closes-984278.patch: Integrated upstream
+    Drop 0009-loader_test-Add-to-CMake-as-a-test.patch: Integrated upstream
+  * d/control:
+    - Update standards version to 4.6.2, no changes.
+    - Update debhelper compat to 13, no changes.
+    - Update URLs.
+  * d/copyright:
+    - Update
+    - Refer to existing installed copy of CC0-1.0
+  * d/watch: Remove repack suffix number, change suffix
+  * libopenxr-utils: Update to include openxr_runtime_list_json
+  * Fix lintian warning and remove unneeded overrides
+  * Update maintainer's name.
+
+  [ Andrew Lee (李健秋) ]
+  * Drop myself from uploaders.
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Tue, 03 Dec 2024 13:39:55 -0600
+
+openxr-sdk-source (1.0.20~dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.0.20~dfsg1. Highlights are primarily
+    the addition of many new extensions in the headers.
+  * Update patches.
+  * Switch to using pandoc for markdown->html conversion
+  * d/copyright: Update
+  * Fix GCC 11 builds, closes: #984278.
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Mon, 25 Oct 2021 12:46:17 -0500
+
+openxr-sdk-source (1.0.18~dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.0.18~dfsg1. Highlights include:
+    - Many new extensions in the headers.
+    - Validation layer fixes and defaulting to stdout output. (1.0.18)
+    - New `XR_ERROR_RUNTIME_UNAVAILABLE` error code returned by
+      a few loader-implemented OpenXR calls for clarification. (1.0.16)
+    - Loader fix for explicit layer enumeration. (1.0.17)
+    - Loader concurrency fixes. (1.0.16)
+    - Headers no longer expose extension function prototypes by default:
+      they are not exported by the loader, so having the prototypes can
+      suggest they're available to use despite resulting in a link error.
+      (1.0.15)
+    - Deterministic build fixes. (1.0.15)
+    - Improve exported CMake config files. (1.0.15)
+  * d/watch: Update for manually uploaded tarballs now, fixing sig check
+  * Rediff patches.
+    - Drop 0005-Sort-protect-defines-to-permit-reproducible-builds.patch:
+      Applied upstream
+    - Drop 0004-add-check-for-shaderStorageImageMultisample-feature.patch:
+      Applied upstream
+  * d/copyright: Update
+  * d/README.source: Update
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Tue, 17 Aug 2021 13:50:00 -0500
+
+openxr-sdk-source (1.0.14~dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.0.14~dfsg1
+  * Rediff patches
+  * Update copyright
+  * Backport patch 0004 from upstream, fixing hello_xr Vulkan.
+  * Update Standards-Version to 4.5.1 - no changes
+  * cme cleanups
+  * Add patch to reproducibly create reflection header.
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Thu, 11 Feb 2021 15:58:44 -0600
+
+openxr-sdk-source (1.0.13~dfsg1-1) unstable; urgency=medium
+
+  [ Rylie Pavlik ]
+  * New upstream version 1.0.13~dfsg1. Highlights include:
+    - Many new extensions in the headers.
+    - Bug fixes and improvements to hello_xr.
+    - Layer build fixes for ARM.
+    - Relicensing of registry XML and headers:
+      both are now "Apache-2.0 OR MIT" (aka Expat)
+    - Export CMake config files.
+  * Rediff patches
+  * Ship CMake config files in -dev.
+  * d/watch: Update
+  * d/copyright: Exclude CI files from repack, re-allow loader spec due to
+    clarification.
+  * d/copyright et al: Update.
+  * d/README.source: Add, based on Monado.
+  * Fix branch names in README.source
+
+  [ Andrew Lee (李健秋) ]
+  * Drop duplicate bsd-3-clause license name to make lintian happy.
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Tue, 01 Dec 2020 15:30:19 -0600
+
+openxr-sdk-source (1.0.9~dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.0.9~dfsg1. Highlights include:
+    - New extensions in the headers.
+    - Fix crashes in the layers.
+    - Small loader improvements.
+  * Rediff patches.
+    - Drop 0011-hello_xr-vulkan-Fix-build-with-Vulkan-headers-1.2.13.patch:
+      Incorporated upstream.
+  * d/copyright: Update
+  * d/rules: Remove outdated override
+  * d/libopenxr-loader1.symbols: Add symbols file
+  * Convert Markdown upstream changelogs to HTML and install both plain and
+    html.
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Fri, 10 Jul 2020 12:17:40 -0500
+
+openxr-sdk-source (1.0.8~dfsg1-3) unstable; urgency=medium
+
+  * Add 0011-hello_xr-vulkan-Fix-build-with-Vulkan-headers-1.2.13.patch
+    - Closes: #958837
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Mon, 04 May 2020 10:43:06 -0500
+
+openxr-sdk-source (1.0.8~dfsg1-2) unstable; urgency=medium
+
+  * Source only upload for unblock migration to testing.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Wed, 01 Apr 2020 16:19:17 +0800
+
+openxr-sdk-source (1.0.8~dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.0.8~dfsg1
+  * d/watch: Update repack suffix.
+  * Rediff patches
+    - This drops the following patches now included upstream:
+      0004-gfxwrapper-Fix-type-mismatch.patch
+      0008-loader_test-Adjust-runtime-manifest-generation-so-it.patch
+      0005-Fix-hello_xr-error-only-seen-in-autopkgtest.patch
+      0006-Loader-test-Adjust-to-match-specification.patch
+      0007-loader_test-Improve-the-dummy-runtime-so-we-can-run-.patch
+    - Drop 0006-build-Build-loader-api-layers-with-all-available-pla.patch
+      as it is no longer needed with the single-instance loader.
+  * d/control: Add Multi-Arch: same to -dev and API layers
+  * Use upstreamed manpages.
+  * d/rules: Add -Wl,--as-needed to improve dpkg-shlibdeps warnings.
+  * Update d/copyright
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Tue, 31 Mar 2020 17:29:20 -0500
+
+openxr-sdk-source (1.0.6~dfsg1-2) unstable; urgency=medium
+
+  * Source only upload for unblock migration to testing.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Mon, 23 Mar 2020 16:26:39 +0800
+
+openxr-sdk-source (1.0.6~dfsg1-1) unstable; urgency=medium
+
+  * Initial Release. (Closes: #943349)
+
+ -- Rylie Pavlik <rylie@ryliepavlik.com>  Mon, 16 Mar 2020 09:39:52 -0500

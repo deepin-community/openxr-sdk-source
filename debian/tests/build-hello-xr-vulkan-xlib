@@ -1,0 +1,26 @@
+#!/bin/sh
+# Copyright 2019, 2023, Rylie Pavlik
+# SPDX-License-Identifier: Apache-2.0
+
+set -e
+# set -x
+
+MYDIR=$(mktemp -d)
+trap "rm -rf $MYDIR" EXIT
+
+SRC=$(pwd)
+
+cd $MYDIR
+c++ \
+    -std=c++11 \
+    "-I${SRC}/src" \
+    "-I${SRC}/src/common" \
+    "-I${SRC}/src/tests/hello_xr/vulkan_shaders" \
+    -DXR_OS_LINUX \
+    -DXR_USE_PLATFORM_XLIB \
+    -DXR_USE_GRAPHICS_API_VULKAN \
+    "${SRC}"/src/tests/hello_xr/*.cpp \
+    $(pkg-config --cflags --libs openxr vulkan) \
+    -o hello_xr
+
+# ./hello_xr -g Vulkan
