@@ -1,0 +1,25 @@
+From f0ce2c9d80e2b5201c39921113c38457c2aaa55d Mon Sep 17 00:00:00 2001
+From: hudeng <hudeng@deepin.org>
+Date: Fri, 12 Sep 2025 13:53:58 +0800
+Subject: [PATCH] feat: deepin add sw64 support
+
+---
+ src/common/platform_utils.hpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/common/platform_utils.hpp b/src/common/platform_utils.hpp
+index 9715fc0..252854d 100644
+--- a/src/common/platform_utils.hpp
++++ b/src/common/platform_utils.hpp
+@@ -63,6 +63,8 @@
+ #define XR_ARCH_ABI "hppa"
+ #elif defined(__alpha__)
+ #define XR_ARCH_ABI "alpha"
++#elif defined(__sw_64__)
++#define XR_ARCH_ABI "sw_64"
+ #elif defined(__ia64__) || defined(_M_IA64)
+ #define XR_ARCH_ABI "ia64"
+ #elif defined(__m68k__)
+-- 
+2.50.1
+
